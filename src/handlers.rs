@@ -109,3 +109,9 @@ pub async fn delete_game(
 
     Ok(Json(response))
 }
+
+// pub async fn update_game_by_id(
+//     Path(game_id): Path<Uuid>,
+//     State(data): State<Arc<AppState>>,
+// ) -> Result<impl IntoResponse, (StatusCode, Json<serde_json::Value>)> {
+// }

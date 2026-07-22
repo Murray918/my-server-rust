@@ -7,6 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgresDb:/var/lib/postgres
+    # this should preserve our data even if the container is removed
+      - postgresDb:/var/lib/postgresql
 volumes:
   postgresDb:
