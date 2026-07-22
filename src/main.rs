@@ -1,8 +1,13 @@
 use axum::{Router, routing::get};
+mod datbase;
 mod routes;
+use datbase::connect_to_pg_database;
 
 #[tokio::main]
 async fn main() {
+    // Connect to Postgres
+    connect_to_pg_database().await;
+
     // build our application with a single route
     let app = Router::new().route("/api", get(routes::hello_world));
 
