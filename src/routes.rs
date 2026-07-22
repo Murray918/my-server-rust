@@ -1,10 +1,10 @@
-use axum::{Json, response::IntoResponse};
-use serde_json::json;
+use axum::{Router, routing::post};
+use std::sync::Arc;
 
-pub async fn hello_world() -> impl IntoResponse {
-    let json_response = json!({
-        "status": "ok",
-        "message": "Hello, World!"
-    });
-    Json(json_response)
+use crate::{AppState, handlers::create_game_handler};
+
+pub fn create_router(app_state: Arc<AppState>) -> Router {
+    Router::new()
+        .route("/api/game", post(create_game_handler))
+        .with_state(app_state)
 }

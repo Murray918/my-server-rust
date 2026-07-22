@@ -1,10 +1,7 @@
 use dotenv::dotenv;
 use sqlx::postgres::{PgPool, PgPoolOptions};
 
-pub struct PGState {
-    db: PgPool,
-}
-
+// use later
 pub async fn connect_to_pg_database() -> PgPool {
     dotenv().ok();
     let db_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
