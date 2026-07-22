@@ -1,8 +1,8 @@
+use axum::{Json, extract::Path, extract::State, http::StatusCode, response::IntoResponse};
+use serde_json::json;
 use sqlx::query_as;
 use std::sync::Arc;
-
-use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
-use serde_json::json;
+use uuid::Uuid;
 
 use crate::{AppState, modles::GameModel, schema::GameSchema};
 
@@ -69,4 +69,43 @@ pub async fn game_list_handler(
     });
 
     Ok(Json(json_response))
+}
+
+pub async fn delete_game(
+    Path(game_id): Path<Uuid>,
+    State(data): State<Arc<AppState>>,
+) -> Result<impl IntoResponse, (StatusCode, Json<serde_json::Value>)> {
+    let query_result = sqlx::query_as!(
+        GameModel,
+        r#"DELETE FROM games WHERE id = $1 RETURNING *"#,
+        &game_id
+    )
+    .fetch_one(&data.db)
+    .await
+    .map_err(|e| match e {
+        sqlx::Error::RowNotFound => (
+            StatusCode::NOT_FOUND,
+            Json(json!({
+                "status": "error",
+                "message": "Game not found"
+            })),
+        ),
+        _ => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({
+                "status": "error",
+                "message": format!("{:?}", e)
+            })),
+        ),
+    })?;
+
+    let response = json!({
+        "status": "success",
+        "message": "Game delete successfully",
+        "data": {
+            "deleted_game" : query_result
+        }
+    });
+
+    Ok(Json(response))
 }
