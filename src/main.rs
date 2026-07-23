@@ -3,11 +3,11 @@ use std::sync::Arc;
 
 // mod datbase; implement later
 mod handlers;
-mod modles;
-mod routes;
-mod schema;
+mod models;
+mod router;
+mod schemas;
 
-use crate::routes::create_router;
+use crate::router::game::create_router;
 use sqlx::postgres::{PgPool, PgPoolOptions};
 
 pub struct AppState {

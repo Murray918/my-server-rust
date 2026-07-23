@@ -6,8 +6,8 @@ use uuid::Uuid;
 
 use crate::{
     AppState,
-    modles::GameModel,
-    schema::{GameSchema, UpdateGameSchema},
+    models::game::GameModel,
+    schemas::game::{GameSchema, UpdateGameSchema},
 };
 
 pub async fn create_game_handler(
