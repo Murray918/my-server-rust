@@ -6,6 +6,7 @@ mod handlers;
 mod models;
 mod router;
 mod schemas;
+mod types;
 
 use crate::router::game::create_router;
 use sqlx::postgres::{PgPool, PgPoolOptions};
