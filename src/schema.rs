@@ -7,3 +7,11 @@ pub struct GameSchema {
     pub creator: String,
     pub plays: i32,
 }
+
+/// Schema for updating an existing note
+#[derive(Serialize, Deserialize, Debug)]
+pub struct UpdateGameSchema {
+    pub name: Option<String>,
+    pub creator: Option<String>,
+    pub plays: Option<i32>,
+}
